@@ -12,7 +12,7 @@ Feature: E-commerce Project Web Site Health Check
     When User click on any product
     Then Product Description is displayed in new tab
     
-     @t
+     @tt
     Scenario: User is click on the Product and check the Product Details
     Given     User navigated to the home application url
     When      User Search for product "Apple Airpods"

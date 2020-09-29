@@ -9,7 +9,7 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
         features="classpath:features",
        glue="stepdefs", 
-        tags="@t", 
+        tags="@tt", 
         plugin = {"pretty", 
             "html:target/html/",
             "json:target/json/file.json",

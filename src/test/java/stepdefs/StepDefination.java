@@ -16,6 +16,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import core.WebDriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -45,12 +46,18 @@ public class StepDefination {
     ProductDescriptionPage productdesc;
     
     @Before
-    public void setUp(Scenario sc){
-        driver = new FirefoxDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(implicit_wait_timeout_in_sec, TimeUnit.SECONDS);
-        logger.info("Broweser invoked successfully");
-        
+    public void setUp(Scenario sc) throws Exception{
+		/*
+		 * driver = new FirefoxDriver(); driver.manage().window().maximize();
+		 * driver.manage().timeouts().implicitlyWait(implicit_wait_timeout_in_sec,
+		 * TimeUnit.SECONDS); logger.info("Broweser invoked successfully");
+		 */
+         this.sc=sc;
+         String BrowserName=WebDriverFactory.GetBrowserName();
+         driver=WebDriverFactory.DriverSelection(BrowserName);
+         logger.info("Browser selected and invoked");
+         
+         
          commonpage= new CommonPage(driver);
          homepage = new HomePage(driver);
          signin= new SignInPage(driver);
@@ -75,19 +82,29 @@ public class StepDefination {
 		@Given("User navigated to the home application url")
 		public void NavigationToUrl() {
 			
-			driver.get(base_url);
-	        sc.log("Browser navigated to URL: " + base_url);
-	        String expected = "Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in";
-	        commonpage.validatePageTitleMatch(expected);
-	        sc.log("Page title validation successfully. Actual title: " + expected );
+			try {
+				driver.get(base_url);
+				sc.log("Browser navigated to URL: " + base_url);
+				String expected = "Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in";
+				commonpage.validatePageTitleMatch(expected);
+				sc.log("Page title validation successfully. Actual title: " + expected );
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    
 		}
-		@When("User Search for product {String}")
+		@When("User Search for product {string}")
 		public void SearchingforProduct(String productName) {
 			
-        commonpage.SeachingProduct("productName");
-        commonpage.ClickOnSeach();
-        sc.log("Searched product"+productName);
+        try {
+			commonpage.SeachingProduct(productName);
+			commonpage.ClickOnSeach();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		       
 		    
 		}
@@ -122,7 +139,8 @@ public class StepDefination {
 
 			@After
 		    public void cleanUp(){
-		        driver.quit();
+		       WebDriverFactory.Driver_Quit();
+		       logger.info("Browser has been closed");
 		    }
 
 

@@ -82,7 +82,8 @@ public class CommonPage {
     	boolean b = driver.findElement(Account).isDisplayed();
 		Assert.assertEquals("Navigation to check Account details",true, b);
 		driver.findElement(Account).click();
-		logger.info("CLicked on account to check account details");    }
+		logger.info("CLicked on account to check account details");    
+	}
     
     public void validatePageTitleMatch(String expectedTitle) {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
